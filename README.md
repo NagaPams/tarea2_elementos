@@ -114,3 +114,8 @@ Para hacer la demostración más atractiva y funcional, la aplicación fue temat
 - Android Developers. (s.f.). *Documentación de Android*. Recuperado de https://developer.android.com/
 - Flutter. (s.f.). *Flutter Documentation*. Recuperado de https://flutter.dev/docs/
 - Zelda Wiki. (2026). *The Minish Cap Map Data*. Recuperado de https://zeldawiki.wiki
+
+## Recursos Compartidos (Assets y Datos)
+Para mantener consistencia entre las tres versiones de la aplicación, los recursos visuales e información se encuentran centralizados:
+- **`shared_assets/`**: Contiene las imágenes de los mapas (pixel art y satélite) y sub-mapas en formato WebP y JPG.
+- **`docs/minish-cap-mapa.md`**: Contiene el documento base producto de Web Scraping, que incluye todas las coordenadas de las regiones, listado de objetos, piezas de corazón e inventario general usado en las tres aplicaciones.
