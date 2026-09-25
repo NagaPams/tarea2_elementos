@@ -4,36 +4,56 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Progreso del Mundo"
+        android:textColor="#2E7D32"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!-- Progreso real: zonas completadas / total -->
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:progress="15"/>
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp" />
 
-    <ScrollView
+    <TextView
+        android:id="@+id/tvProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="#808080"
+        android:textSize="12sp"
+        android:textStyle="italic" />
+
+    <!-- Espacio disponible para el mapa; el tamaño real del mapa se calcula en MapFragment -->
+    <FrameLayout
+        android:id="@+id/mapContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <HorizontalScrollView
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <FrameLayout
+            android:id="@+id/mapFrame"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
-            <FrameLayout
-                android:id="@+id/mapContainer"
-                android:layout_width="1080dp"
-                android:layout_height="750dp">
+            <ImageView
+                android:id="@+id/imgMap"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="Mapa de Hyrule"
+                android:scaleType="fitXY" />
 
-                <ImageView
-                    android:id="@+id/imgMap"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitXY"/>
-                
-                <!-- Regiones generadas dinámicamente -->
-                
-            </FrameLayout>
-
-        </HorizontalScrollView>
-    </ScrollView>
+            <!-- Las zonas táctiles se agregan desde MapFragment -->
+        </FrameLayout>
+    </FrameLayout>
 </LinearLayout>

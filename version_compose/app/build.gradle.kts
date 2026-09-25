@@ -26,6 +26,12 @@ android {
             }
         }
     }
+    // Los mapas se comparten entre las tres versiones desde /shared_assets
+    sourceSets {
+        getByName("main") {
+            assets.directories.add("../../shared_assets")
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11

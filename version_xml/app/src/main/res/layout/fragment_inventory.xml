@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,14 +8,78 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.google.android.material.tabs.TabItem android:text="Técnicas" android:icon="@android:drawable/ic_menu_agenda"/>
-        <com.google.android.material.tabs.TabItem android:text="Corazones" android:icon="@android:drawable/ic_menu_camera"/>
-        <com.google.android.material.tabs.TabItem android:text="Kinstones" android:icon="@android:drawable/ic_menu_gallery"/>
+
+        <com.google.android.material.tabs.TabItem
+            android:icon="@drawable/ic_tab_book"
+            android:text="Técnicas y objetos" />
+
+        <com.google.android.material.tabs.TabItem
+            android:icon="@drawable/ic_tab_heart"
+            android:text="Corazones" />
+
+        <com.google.android.material.tabs.TabItem
+            android:icon="@drawable/ic_tab_category"
+            android:text="Kinstones" />
     </com.google.android.material.tabs.TabLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <!-- Contador de piezas (solo en la pestaña Corazones) -->
+    <TextView
+        android:id="@+id/tvHeader"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"/>
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- Arrastrar hacia abajo para recargar (solo en la pestaña de técnicas y objetos) -->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:padding="8dp" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <!-- Estado vacío: no intercepta toques, así se puede seguir arrastrando para recargar -->
+        <LinearLayout
+            android:id="@+id/emptyView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🏆"
+                android:textSize="64sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="¡Lo dominaste todo!"
+                android:textColor="#808080"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Arrastra hacia abajo para ver la lista otra vez"
+                android:textColor="#808080" />
+        </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

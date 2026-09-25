@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'data/inventory.dart';
 import 'data/regions.dart';
 
 // Notificadores globales
@@ -489,7 +490,13 @@ class _Section2MenuScreenState extends State<Section2MenuScreen> {
         ),
         ElevatedButton(
           onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Usa el ícono de Mapa en la barra inferior para entrar.')));
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'Usa el ícono de Mapa en la barra inferior para entrar.',
+                ),
+              ),
+            );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
@@ -510,7 +517,11 @@ class _Section2MenuScreenState extends State<Section2MenuScreen> {
         ),
         OutlinedButton(
           onPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Tus ítems están en la pestaña de Inventario.')));
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Tus ítems están en la pestaña de Inventario.'),
+              ),
+            );
           },
           child: const Text('Ver Registro de Ítems'),
         ),
@@ -523,7 +534,21 @@ class _Section2MenuScreenState extends State<Section2MenuScreen> {
         ),
         TextButton(
           onPressed: () {
-            showDialog(context: context, builder: (_) => AlertDialog(title: const Text('Créditos'), content: const Text('Zelda Map Companion\n\nDesarrollado por Hervey Gabriel Gutierrez Prats.'), actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cerrar'))]));
+            showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                title: const Text('Créditos'),
+                content: const Text(
+                  'Zelda Map Companion\n\nDesarrollado por Hervey Gabriel Gutierrez Prats.',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Cerrar'),
+                  ),
+                ],
+              ),
+            );
           },
           child: const Text('Leer créditos de la app'),
         ),
@@ -539,14 +564,28 @@ class _Section2MenuScreenState extends State<Section2MenuScreen> {
           children: [
             ElevatedButton.icon(
               onPressed: () {
-                showModalBottomSheet(context: context, builder: (_) => Container(padding: const EdgeInsets.all(16), height: 200, child: const Center(child: Text('Rumor: Hay un muro misterioso en las Colinas del Este.', style: TextStyle(fontSize: 18)))));
+                showModalBottomSheet(
+                  context: context,
+                  builder: (_) => Container(
+                    padding: const EdgeInsets.all(16),
+                    height: 200,
+                    child: const Center(
+                      child: Text(
+                        'Rumor: Hay un muro misterioso en las Colinas del Este.',
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+                );
               },
               icon: const Icon(Icons.menu_book),
               label: const Text('Notas Secretas'),
             ),
             IconButton(
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Abriendo menú de ajustes...')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Abriendo menú de ajustes...')),
+                );
               },
               icon: const Icon(Icons.settings),
               tooltip: 'Ajustes de Juego',
@@ -570,14 +609,35 @@ class _Section2MenuScreenState extends State<Section2MenuScreen> {
           children: [
             FloatingActionButton(
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Agregando marcador de destino...')));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Agregando marcador de destino...'),
+                  ),
+                );
               },
               heroTag: 'fab_normal',
               child: const Icon(Icons.add_location_alt),
             ),
             FloatingActionButton.extended(
               onPressed: () {
-                showDialog(context: context, barrierDismissible: false, builder: (_) { Future.delayed(const Duration(seconds: 2), () { if (context.mounted) Navigator.pop(context); }); return const AlertDialog(content: Row(children: [CircularProgressIndicator(), SizedBox(width: 20), Text('Sincronizando...')])); });
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) {
+                    Future.delayed(const Duration(seconds: 2), () {
+                      if (context.mounted) Navigator.pop(context);
+                    });
+                    return const AlertDialog(
+                      content: Row(
+                        children: [
+                          CircularProgressIndicator(),
+                          SizedBox(width: 20),
+                          Text('Sincronizando...'),
+                        ],
+                      ),
+                    );
+                  },
+                );
               },
               heroTag: 'fab_extendido',
               icon: const Icon(Icons.sync),
@@ -889,64 +949,53 @@ class Section4InventoryScreen extends StatefulWidget {
       _Section4InventoryScreenState();
 }
 
+// Color de cada grupo de Kinstones
+const Map<String, Color> _kinstoneColors = {
+  'Verdes': Colors.green,
+  'Azules': Colors.blue,
+  'Rojas': Colors.red,
+  'Doradas': Colors.amber,
+};
+
 class _Section4InventoryScreenState extends State<Section4InventoryScreen> {
-  // Lista de +15 elementos: Maestros de Espada
-  List<String> _tecnicas = [
-    'Ataque giratorio (Swiftblade)',
-    'Rompe-rocas (Swiftblade)',
-    'Ataque con carrera (Swiftblade)',
-    'Estocada descendente (Swiftblade)',
-    'Ataque rodando (Grayblade)',
-    'Rayo del peligro (Waveblade)',
-    'Rayo de espada (Grimblade)',
-    'Gran ataque giratorio (Swiftblade I)',
-    'Carga rápida del giro (Scarblade)',
-    'Carga rápida del desdoble (Splitblade)',
-    'Gran giro más largo (Greatblade)',
-    'Poción azul (Syrup)',
-    'Carcaj más grande (Hada Libélula)',
-    'Bolsa de bombas grande (Hada Efímera)',
-    'Cartera más grande (Hada Mariposa)',
-    'Escudo espejo (Biggoron)'
-  ];
+  // Lista de +15 elementos (8 técnicas + 20 objetos)
+  List<InventoryItem> _items = List.of(inventoryItems);
 
   Future<void> _refresh() async {
     await Future.delayed(const Duration(seconds: 1));
-    setState(() {
-      _tecnicas = [
-        'Ataque giratorio (Swiftblade)',
-        'Rompe-rocas (Swiftblade)',
-        'Ataque con carrera (Swiftblade)',
-        'Estocada descendente (Swiftblade)',
-        'Ataque rodando (Grayblade)',
-        'Rayo del peligro (Waveblade)',
-        'Rayo de espada (Grimblade)',
-        'Gran ataque giratorio (Swiftblade I)',
-        'Carga rápida del giro (Scarblade)',
-        'Carga rápida del desdoble (Splitblade)',
-        'Gran giro más largo (Greatblade)',
-        'Poción azul (Syrup)',
-        'Carcaj más grande (Hada Libélula)',
-        'Bolsa de bombas grande (Hada Efímera)',
-        'Cartera más grande (Hada Mariposa)',
-        'Escudo espejo (Biggoron)'
-      ];
-    });
+    setState(() => _items = List.of(inventoryItems));
+  }
+
+  void _showDetail(String emoji, String title, String body) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('$emoji $title'),
+        content: Text(body),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cerrar'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    // Usamos DefaultTabController para las pestañas
     return DefaultTabController(
       length: 3,
       child: Column(
         children: [
           const RubricDoc(
             title: 'Tabs (Pestañas)',
-            description: 'Navegación horizontal deslizable entre distintas vistas (Listas, Cuadrícula, etc).',
+            description: 'Navegación horizontal deslizable entre distintas vistas (Lista, Cuadrícula y Lista con encabezados).',
           ),
           const TabBar(
             tabs: [
-              Tab(icon: Icon(Icons.list), text: 'Técnicas'),
+              Tab(icon: Icon(Icons.auto_stories), text: 'Técnicas y objetos'),
               Tab(icon: Icon(Icons.favorite), text: 'Corazones'),
               Tab(icon: Icon(Icons.category), text: 'Kinstones'),
             ],
@@ -954,9 +1003,14 @@ class _Section4InventoryScreenState extends State<Section4InventoryScreen> {
           Expanded(
             child: TabBarView(
               children: [
-                _buildQuestsList(),
-                _buildGrid(),
-                _buildSectionedList(),
+                // TAB 1: Lista Vertical + Pull to Refresh + Swipe to Delete + Empty State
+                _buildItemsList(),
+
+                // TAB 2: Grid (Cuadrícula) con las 44 Piezas de Corazón
+                _buildHeartsGrid(),
+
+                // TAB 3: Lista con encabezados de sección
+                _buildKinstonesList(),
               ],
             ),
           ),
@@ -965,170 +1019,216 @@ class _Section4InventoryScreenState extends State<Section4InventoryScreen> {
     );
   }
 
-  Widget _buildQuestsList() {
+  Widget _buildItemsList() {
     return Column(
       children: [
         const RubricDoc(
           title: 'ListView, Swipe to Delete, Pull to Refresh',
-          description: 'Desliza una técnica para marcarla como Dominada (borrar). Arrastra hacia abajo para recuperar todas (RefreshIndicator).',
+          description: 'Lista vertical. Desliza un elemento para marcarlo como dominado (Dismissible) y deshazlo desde el SnackBar. Arrastra hacia abajo para recargar (RefreshIndicator). Estado vacío si no quedan elementos.',
         ),
         Expanded(
-          child: _tecnicas.isEmpty
-              ? const Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.verified, size: 80, color: Colors.amber),
+          child: RefreshIndicator(
+            onRefresh: _refresh,
+            child: _items.isEmpty
+                // El estado vacío también debe poder arrastrarse para recargar
+                ? ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: const [
+                      SizedBox(height: 120),
+                      Icon(Icons.emoji_events, size: 80, color: Colors.grey),
                       SizedBox(height: 16),
-                      Text('¡Dominaste todas las técnicas!', style: TextStyle(fontSize: 18, color: Colors.grey)),
+                      Text(
+                        '¡Lo dominaste todo!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18, color: Colors.grey),
+                      ),
+                      Text(
+                        'Arrastra hacia abajo para ver la lista otra vez',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.grey),
+                      ),
                     ],
-                  ),
-                )
-              : RefreshIndicator(
-                  onRefresh: _refresh,
-                  child: ListView.builder(
-                    itemCount: _tecnicas.length,
+                  )
+                : ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemCount: _items.length,
                     itemBuilder: (context, index) {
-                      final tecnica = _tecnicas[index];
+                      final item = _items[index];
+                      final isTech = item.category == 'Técnica';
                       return Dismissible(
-                        key: Key(tecnica),
+                        key: ValueKey(item.name),
                         background: Container(
                           color: Colors.green,
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: const Icon(Icons.check, color: Colors.white),
+                        ),
+                        secondaryBackground: Container(
+                          color: Colors.green,
                           alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.only(right: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: const Icon(Icons.check, color: Colors.white),
                         ),
                         onDismissed: (direction) {
-                          setState(() {
-                            _tecnicas.removeAt(index);
-                          });
+                          setState(() => _items.removeAt(index));
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Técnica $tecnica aprendida')),
+                            SnackBar(
+                              content: Text('${item.name} dominado'),
+                              action: SnackBarAction(
+                                label: 'Deshacer',
+                                onPressed: () =>
+                                    setState(() => _items.insert(index, item)),
+                              ),
+                            ),
                           );
                         },
                         child: ListTile(
-                          leading: const Icon(Icons.menu_book),
-                          title: Text(tecnica),
-                          subtitle: const Text('Desliza para marcar como dominada'),
+                          leading: Icon(
+                            isTech ? Icons.auto_stories : Icons.backpack,
+                          ),
+                          title: Text(item.name),
+                          subtitle: Text(item.category),
+                          onTap: () => _showDetail(
+                            isTech ? '📜' : '🎒',
+                            item.name,
+                            item.howTo,
+                          ),
                         ),
                       );
                     },
                   ),
-                ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildGrid() {
-    // 44 piezas de corazón mapeadas a regiones de ejemplo.
-    // Usamos el completedRegionsNotifier para pintarlas de rojo si la región fue explorada.
-    List<String> heartRegions = List.filled(44, 'mount_crenel');
-    heartRegions[0] = 'hyrule_town'; heartRegions[1] = 'hyrule_town'; heartRegions[2] = 'hyrule_town';
-    heartRegions[3] = 'lake_hylia'; heartRegions[4] = 'lake_hylia';
-    heartRegions[5] = 'north_hyrule_field'; heartRegions[6] = 'south_hyrule_field';
-    heartRegions[7] = 'lon_lon_ranch'; heartRegions[8] = 'eastern_hills';
-    heartRegions[9] = 'western_wood'; heartRegions[10] = 'castor_wilds';
-    
-    return Column(
-      children: [
-        const RubricDoc(
-          title: 'GridView',
-          description: 'Muestra las 44 piezas de corazón. Se colorean rojas si marcaste la zona como completada en el mapa.',
-        ),
-        Expanded(
-          child: ValueListenableBuilder<Set<String>>(
-            valueListenable: completedRegionsNotifier,
-            builder: (context, completedRegions, child) {
-              return GridView.builder(
-                padding: const EdgeInsets.all(8),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                ),
-                itemCount: 44,
-                itemBuilder: (context, index) {
-                  bool isObtained = completedRegions.contains(heartRegions[index]);
-                  return Card(
-                    color: isObtained ? Colors.red.shade50 : Colors.grey.shade200,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            isObtained ? Icons.favorite : Icons.favorite_border, 
-                            color: isObtained ? Colors.red : Colors.grey, 
-                            size: 32
-                          ),
-                          Text(
-                            '#${index + 1}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: isObtained ? Colors.red.shade900 : Colors.grey,
-                              fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-            }
           ),
         ),
       ],
     );
   }
 
-  Widget _buildSectionedList() {
-    final items = [
-      'ENCABEZADO: Verdes (Comunes)',
-      'Divisoria triangular',
-      'Cuadrada',
-      'Punta afilada',
-      'ENCABEZADO: Azules (Raras)',
-      'Forma de gota',
-      'Forma en L',
-      'ENCABEZADO: Rojas (Muy Raras)',
-      'Ondulada',
-      'Dentada',
-      'Sector de círculo',
-      'ENCABEZADO: Doradas (Obligatorias)',
-      'Rey Gustaf',
-      '3 Estatuas Misteriosas (Pantano)',
-      '5 Nubes Misteriosas (Cielo)',
+  Widget _buildHeartsGrid() {
+    return Column(
+      children: [
+        const RubricDoc(
+          title: 'GridView',
+          description: 'Cuadrícula con las 44 Piezas de Corazón. Se marcan como obtenidas al completar su región en el Mapa. Toca una para ver cómo conseguirla.',
+        ),
+        Expanded(
+          child: ValueListenableBuilder<Set<String>>(
+            valueListenable: completedRegionsNotifier,
+            builder: (context, completed, child) {
+              final obtained = heartPieces
+                  .where((h) => completed.contains(h.region.id))
+                  .length;
+              final scheme = Theme.of(context).colorScheme;
+
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      'Piezas obtenidas: $obtained/${heartPieces.length}',
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    child: GridView.builder(
+                      padding: const EdgeInsets.all(8),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            crossAxisSpacing: 8,
+                            mainAxisSpacing: 8,
+                          ),
+                      itemCount: heartPieces.length,
+                      itemBuilder: (context, index) {
+                        final heart = heartPieces[index];
+                        final isObtained = completed.contains(heart.region.id);
+                        return Card(
+                          color: isObtained
+                              ? scheme.errorContainer
+                              : scheme.surfaceContainerHighest,
+                          child: InkWell(
+                            onTap: () => _showDetail(
+                              '💖',
+                              'Pieza de Corazón #${heart.number}',
+                              '${heart.region.name}${isObtained ? ' (región completada)' : ''}\n\n${heart.poi.howTo}',
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  isObtained
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: isObtained ? Colors.red : Colors.grey,
+                                  size: 28,
+                                ),
+                                Text('#${heart.number}'),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildKinstonesList() {
+    // Lista con dos tipos de elementos: encabezado (String) y forma de Kinstone
+    final entries = <Object>[
+      for (final group in kinstonesByColor.entries) ...[
+        group.key,
+        ...group.value,
+      ],
     ];
+    final scheme = Theme.of(context).colorScheme;
 
     return Column(
       children: [
         const RubricDoc(
           title: 'Lista con Encabezados',
-          description: 'Catálogo de tipos de Kinstones según el color.',
+          description: 'Lista que renderiza distintos widgets dependiendo del tipo de elemento (encabezados vs contenido).',
         ),
         Expanded(
           child: ListView.builder(
-            itemCount: items.length,
+            itemCount: entries.length,
             itemBuilder: (context, index) {
-              final item = items[index];
-              if (item.startsWith('ENCABEZADO:')) {
+              final entry = entries[index];
+              if (entry is String) {
+                final total = kinstonesByColor[entry]!.fold<int>(
+                  0,
+                  (sum, k) => sum + k.fusions,
+                );
                 return Container(
-                  color: Colors.amber.shade100,
+                  color: scheme.secondaryContainer,
                   padding: const EdgeInsets.all(8),
                   child: Text(
-                    item.replaceAll('ENCABEZADO: ', ''),
+                    '$entry ($total fusiones)',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                      color: Colors.amber.shade900
+                      color: scheme.onSecondaryContainer,
                     ),
                   ),
                 );
               }
+              final kinstone = entry as KinstoneType;
+              // Buscamos el color del grupo al que pertenece
+              final group = kinstonesByColor.entries
+                  .firstWhere((g) => g.value.contains(kinstone))
+                  .key;
               return ListTile(
-                leading: const Icon(Icons.star, color: Colors.amber),
-                title: Text(item),
+                leading: CircleAvatar(
+                  radius: 12,
+                  backgroundColor: _kinstoneColors[group],
+                ),
+                title: Text(kinstone.shape),
+                trailing: Text('${kinstone.fusions} fusiones'),
               );
             },
           ),
@@ -1137,6 +1237,7 @@ class _Section4InventoryScreenState extends State<Section4InventoryScreen> {
     );
   }
 }
+
 // PANTALLAS 5 y 6: MAPA INTERACTIVO (INFORMACIÓN Y CONTENEDORES)
 class Section56MapScreen extends StatefulWidget {
   const Section56MapScreen({super.key});
@@ -1220,9 +1321,9 @@ class _Section56MapScreenState extends State<Section56MapScreen> {
   }
 
   void _mostrarDetalle(Region region) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Abriendo zona: ${region.name}...')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('Abriendo zona: ${region.name}...')));
 
     showModalBottomSheet(
       context: context,
@@ -1491,8 +1592,8 @@ class _Section56MapScreenState extends State<Section56MapScreen> {
                               children: [
                                 Image.asset(
                                   isPixel
-                                      ? '../shared_assets/map.jpg'
-                                      : '../shared_assets/map_satellite.webp',
+                                      ? 'assets/map.jpg'
+                                      : 'assets/map_satellite.webp',
                                   width: imageWidth,
                                   height: imageHeight,
                                   fit: BoxFit.fill,
@@ -1502,7 +1603,9 @@ class _Section56MapScreenState extends State<Section56MapScreen> {
                                 if (isPixel)
                                   ...regions.map((reg) {
                                     final emojis = reg.pois.map((p) => p.emoji);
-                                    final isCompleted = completed.contains(reg.id);
+                                    final isCompleted = completed.contains(
+                                      reg.id,
+                                    );
 
                                     return Positioned(
                                       left: reg.l * imageWidth,
