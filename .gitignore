@@ -1,0 +1,16 @@
+# Android Studio / IntelliJ
+.idea/
+*.iml
+.gradle/
+.kotlin/
+local.properties
+build/
+captures/
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Sistema
+.DS_Store
