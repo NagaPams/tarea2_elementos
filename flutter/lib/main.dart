@@ -488,7 +488,9 @@ class _Section2MenuScreenState extends State<Section2MenuScreen> {
           description: 'Botón con fondo relleno. Llama la atención y se usa para la acción más importante.',
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Usa el ícono de Mapa en la barra inferior para entrar.')));
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -507,7 +509,9 @@ class _Section2MenuScreenState extends State<Section2MenuScreen> {
           description: 'Botón con borde, fondo transparente. Para acciones secundarias que no deben robar atención.',
         ),
         OutlinedButton(
-          onPressed: () {},
+          onPressed: () {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Tus ítems están en la pestaña de Inventario.')));
+          },
           child: const Text('Ver Registro de Ítems'),
         ),
         const SizedBox(height: 16),
@@ -518,7 +522,9 @@ class _Section2MenuScreenState extends State<Section2MenuScreen> {
           description: 'Botón sin borde ni fondo. Usado para acciones sutiles.',
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            showDialog(context: context, builder: (_) => AlertDialog(title: const Text('Créditos'), content: const Text('Zelda Map Companion\n\nDesarrollado por Hervey Gabriel Gutierrez Prats.'), actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cerrar'))]));
+          },
           child: const Text('Leer créditos de la app'),
         ),
         const SizedBox(height: 24),
@@ -532,12 +538,16 @@ class _Section2MenuScreenState extends State<Section2MenuScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(context: context, builder: (_) => Container(padding: const EdgeInsets.all(16), height: 200, child: const Center(child: Text('Rumor: Hay un muro misterioso en las Colinas del Este.', style: TextStyle(fontSize: 18)))));
+              },
               icon: const Icon(Icons.menu_book),
               label: const Text('Notas Secretas'),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Abriendo menú de ajustes...')));
+              },
               icon: const Icon(Icons.settings),
               tooltip: 'Ajustes de Juego',
               style: IconButton.styleFrom(
@@ -559,12 +569,16 @@ class _Section2MenuScreenState extends State<Section2MenuScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Agregando marcador de destino...')));
+              },
               heroTag: 'fab_normal',
               child: const Icon(Icons.add_location_alt),
             ),
             FloatingActionButton.extended(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(context: context, barrierDismissible: false, builder: (_) { Future.delayed(const Duration(seconds: 2), () { if (context.mounted) Navigator.pop(context); }); return const AlertDialog(content: Row(children: [CircularProgressIndicator(), SizedBox(width: 20), Text('Sincronizando...')])); });
+              },
               heroTag: 'fab_extendido',
               icon: const Icon(Icons.sync),
               label: const Text('Sincronizar Nube'),
