@@ -20,23 +20,56 @@ Para hacer la demostración más atractiva y funcional, la aplicación fue temat
 
 ---
 
+## Estructura del Repositorio
+
+```
+catalogo-ui/
+├── version_flutter/   # Versión Flutter
+├── version_xml/       # Versión Android nativo con Views y XML
+├── version_compose/   # Versión Android nativo con Jetpack Compose
+├── shared_assets/     # Mapas compartidos por las tres versiones
+│   ├── map.jpg              # Mapa general (pixel art)
+│   ├── map_satellite.webp   # Mapa general (vista satélite)
+│   └── maps/                # 16 mapas detallados por región
+└── docs/
+    └── minish-cap-mapa.md   # Documento base con los datos del juego
+```
+
+---
+
 ## Desarrollo (Instrucciones de Compilación y Ejecución)
 
-### 1. Flutter (Terminado)
+Las tres versiones están terminadas y tienen las mismas pantallas: Login/Registro, Menú, Filtros, Mapa interactivo e Inventario.
+
+### 1. Flutter
 1. Asegurarse de tener Flutter instalado y configurado.
-2. Abrir una terminal en la carpeta `flutter/`.
+2. Abrir una terminal en la carpeta `version_flutter/`.
 3. Ejecutar `flutter pub get` para descargar las dependencias.
 4. Ejecutar `flutter run` para iniciar la aplicación en el emulador o dispositivo activo.
+5. (Opcional) Ejecutar `flutter test` para correr las pruebas.
 
-### 2. Android (Views y XML) - (En proceso)
-1. Abrir la carpeta `android-views/` en Android Studio.
+### 2. Android (Views y XML)
+1. Abrir la carpeta `version_xml/` en Android Studio.
 2. Sincronizar el proyecto con Gradle.
 3. Ejecutar la aplicación en el dispositivo físico o emulador.
 
-### 3. Android (Jetpack Compose) - (En proceso)
-1. Abrir la carpeta `android-compose/` en Android Studio.
+### 3. Android (Jetpack Compose)
+1. Abrir la carpeta `version_compose/` en Android Studio.
 2. Sincronizar el proyecto con Gradle.
 3. Ejecutar la aplicación en el dispositivo físico o emulador.
+
+---
+
+## Funcionalidades Principales
+
+- **Mapa interactivo:** mapa de Hyrule con 17 regiones táctiles, zoom con gestos y dos estilos (Pixel y Satélite, se elige en Filtros). Al tocar una región se abre una hoja inferior con su mapa detallado; los emojis sobre el mapa se pueden tocar para ver cómo conseguir cada cosa.
+  - 💖 Pieza de Corazón (44) · 🧚 Hada / Gran Hada (10) · 🗡️ Mazmorra (7) · 🌀 Portal de viento (8) · 🍶 Botella vacía (4)
+- **Progreso del mundo:** las regiones se pueden marcar como completadas; la barra de progreso y el inventario se actualizan.
+- **Inventario:**
+  - *Técnicas y objetos:* 28 elementos. Deslizar para marcar como dominado (con Deshacer), arrastrar hacia abajo para recargar, estado vacío y detalle al tocar.
+  - *Corazones:* cuadrícula con las 44 Piezas de Corazón; se marcan como obtenidas al completar su región.
+  - *Kinstones:* lista con encabezados por color con las 9 formas y sus 100 fusiones.
+- **Modo Rúbrica:** interruptor en la barra superior que muestra qué componente de UI se usa en cada parte de la pantalla.
 
 ---
 
@@ -71,13 +104,19 @@ Para hacer la demostración más atractiva y funcional, la aplicación fue temat
 | Diálogo de confirmación | `AlertDialog` | `AlertDialog` | `AlertDialog` |
 | Hoja inferior | `BottomSheetDialogFragment` | `ModalBottomSheet` | `showModalBottomSheet` |
 | Tarjeta | `CardView` | `Card` | `Card` |
-| Separador | `View` | `Divider` | `Divider` |
+| Separador | `View` / `MaterialDivider` | `HorizontalDivider` | `Divider` |
 | Filas y Columnas | `LinearLayout` | `Row` / `Column` | `Row` / `Column` |
 | Superposición | `FrameLayout` | `Box` | `Stack` |
 | Desplazamiento vertical | `ScrollView` | `Modifier.verticalScroll()` | `SingleChildScrollView` |
 | Barra superior | `Toolbar` / `MaterialToolbar` | `TopAppBar` | `AppBar` |
 | Navegación inferior | `BottomNavigationView` | `NavigationBar` | `BottomNavigationBar` |
 | Pesos proporcionales | `layout_weight` | `Modifier.weight()` | `Expanded` / `Flexible` |
+| Pestañas | `TabLayout` | `PrimaryTabRow` / `Tab` | `TabBar` / `TabBarView` |
+| Deslizar para eliminar | `ItemTouchHelper` | `SwipeToDismissBox` | `Dismissible` |
+| Arrastrar para recargar | `SwipeRefreshLayout` | `PullToRefreshBox` | `RefreshIndicator` |
+| Lista con encabezados | `RecyclerView` (varios `viewType`) | `LazyColumn` (`item` + `items`) | `ListView.builder` (según el tipo) |
+| Zoom con gestos | — | `detectTransformGestures` + `graphicsLayer` | `InteractiveViewer` |
+| Contador sobre ícono | `TextView` | `BadgedBox` / `Badge` | `Badge` |
 
 ---
 
@@ -113,9 +152,33 @@ Para hacer la demostración más atractiva y funcional, la aplicación fue temat
 ## Bibliografía
 - Android Developers. (s.f.). *Documentación de Android*. Recuperado de https://developer.android.com/
 - Flutter. (s.f.). *Flutter Documentation*. Recuperado de https://flutter.dev/docs/
-- Zelda Wiki. (2026). *The Minish Cap Map Data*. Recuperado de https://zeldawiki.wiki
+- Zelda Wiki. (2026). *The Legend of Zelda: The Minish Cap* (ubicaciones, mazmorras y coleccionables). Recuperado de https://zeldawiki.wiki
+- StrategyWiki. (2026). *The Legend of Zelda: The Minish Cap*. Recuperado de https://strategywiki.org/wiki/The_Legend_of_Zelda:_The_Minish_Cap
 
 ## Recursos Compartidos (Assets y Datos)
-Para mantener consistencia entre las tres versiones de la aplicación, los recursos visuales e información se encuentran centralizados:
-- **`shared_assets/`**: Contiene las imágenes de los mapas (pixel art y satélite) y sub-mapas en formato WebP y JPG.
-- **`docs/minish-cap-mapa.md`**: Contiene el documento base producto de Web Scraping, que incluye todas las coordenadas de las regiones, listado de objetos, piezas de corazón e inventario general usado en las tres aplicaciones.
+Para mantener consistencia entre las tres versiones, los mapas y los datos del juego están centralizados.
+
+### Imágenes (`shared_assets/`)
+- **XML y Compose** leen las imágenes directamente de `shared_assets/`. En cada `app/build.gradle.kts` se agrega como carpeta de assets:
+  ```kotlin
+  sourceSets {
+      getByName("main") {
+          assets.directories.add("../../shared_assets")
+      }
+  }
+  ```
+- **Flutter** no puede empaquetar archivos que estén fuera de su carpeta, así que usa una copia en `version_flutter/assets/`. Si se modifica algo en `shared_assets/`, hay que volver a copiarlo con:
+  ```bash
+  version_flutter/tool/sync_assets.sh
+  ```
+
+### Datos del juego
+- **`docs/minish-cap-mapa.md`**: documento base obtenido por *web scraping* de Zelda Wiki y StrategyWiki. Incluye regiones, conexiones, mazmorras, las 44 Piezas de Corazón, las 100 fusiones de Kinstones y demás coleccionables.
+- A partir de ese documento se crearon los archivos de datos que usa cada app (el mismo contenido en las tres):
+
+| Datos | Flutter | XML y Compose |
+|-------|---------|---------------|
+| Regiones del mapa y puntos de interés | `lib/data/regions.dart` | `Data.kt` |
+| Inventario (técnicas, objetos, Kinstones y corazones) | `lib/data/inventory.dart` | `Inventory.kt` |
+
+> Las posiciones de los emojis dentro de los mapas detallados son aproximadas. Se ajustan cambiando los valores `x` y `y` (de 0 a 1) de cada punto en los archivos de datos.
